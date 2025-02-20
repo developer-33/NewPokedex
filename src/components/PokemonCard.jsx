@@ -37,7 +37,7 @@ const PokemonCard = ({ pokemon }) => {
   return (
     <div>
       {/* Pokémon Card */}
-      <div className="relative bg-gradient-to-b from-gray-800 to-gray-900 rounded-xl shadow-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer">
+      <div className="relative bg-gradient-to-b from-black to-gray-800 rounded-xl shadow-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer">
         {/* Pokémon Image */}
         <img
           src={pokemonData.sprites.other["official-artwork"].front_default}
