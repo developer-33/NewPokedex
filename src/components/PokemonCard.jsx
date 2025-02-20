@@ -37,8 +37,13 @@ const PokemonCard = ({ pokemon }) => {
   return (
     <div>
       {/* Pokémon Card */}
-      <div className="relative bg-gradient-to-b from-black to-gray-900 rounded-xl shadow-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer">
-        {/* Pokémon Image */}
+      {/* <div className={`relative bg-gradient-to-b from-${typeColors[pokemonData.types[0].type.name]}/40 to-${typeColors[pokemonData.types[0].type.name]}/60 backdrop-blur-lg border border-white/20 shadow-xl rounded-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer`}> */}
+      {/* <div className="relative bg-gradient-to-b from-purple-500/30 via-indigo-500/40 to-pink-500/30 backdrop-blur-lg border border-white/20 shadow-xl rounded-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer"> */}
+      {/* <div className="relative bg-white/20 backdrop-blur-lg border border-white/10 shadow-lg rounded-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer"> */}
+      {/* <div className={`relative bg-gradient-to-b from-${typeColors[pokemonData.types[0].type.name]}/40 to-${typeColors[pokemonData.types[0].type.name]}/60 backdrop-blur-lg border border-white/20 shadow-xl rounded-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer`}> */}
+      <div className={`relative bg-gradient-to-b ${typeColors[pokemonData.types[0].type.name]} backdrop-blur-lg border border-white/20 shadow-xl rounded-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer`}>
+
+
         <img
           src={pokemonData.sprites.other["official-artwork"].front_default}
           alt={pokemon.name}
@@ -71,7 +76,8 @@ const PokemonCard = ({ pokemon }) => {
         {/* More Details Button */}
         <button
           onClick={() => setIsModalOpen(true)}
-          className="mt-4 w-full bg-yellow-500 hover:bg-yellow-400 py-2 rounded-lg text-sm font-semibold text-black"
+          className="mt-4 w-full bg-white hover:bg-gray-100 py-2
+           -2 rounded-lg text-sm font-semibold text-red-700"
         >
           ⚡ More Details
         </button>
