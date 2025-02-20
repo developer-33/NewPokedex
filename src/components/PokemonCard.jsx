@@ -108,26 +108,26 @@ const PokemonCard = ({ pokemon }) => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-md z-50">
-          <div className="bg-gray-900 text-white p-6 rounded-2xl shadow-2xl w-full max-w-md relative">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-lg z-50">
+          <div className="bg-gradient-to-b from-white/20 to-white/5   text-white p-8 rounded-3xl shadow-2xl w-full max-w-lg relative animate-fadeIn">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-3 right-3 text-red-400 hover:text-red-600 text-xl"
+              className="absolute top-4 right-4 text-red-400 hover:text-red-600 text-2xl"
             >
               ✕
             </button>
 
-            <h2 className="text-3xl font-bold capitalize text-center mb-4">
+            <h2 className="text-4xl font-extrabold capitalize text-center mb-4">
               {pokemonData.name}
             </h2>
 
             <img
               src={pokemonData.sprites.other["official-artwork"].front_default}
               alt={pokemonData.name}
-              className="mx-auto w-40 rounded-lg border-4 border-yellow-400 shadow-lg"
+              className="mx-auto w-48 rounded-lg border-4 border-yellow-400 shadow-lg"
             />
 
-            <div className="mt-4 text-center">
+            <div className="mt-6 text-center space-y-2">
               <p><strong>Height:</strong> {pokemonData.height / 10} m</p>
               <p><strong>Weight:</strong> {pokemonData.weight / 10} kg</p>
               <p><strong>Base XP:</strong> {pokemonData.base_experience}</p>
@@ -136,7 +136,7 @@ const PokemonCard = ({ pokemon }) => {
               <p><strong>Shape:</strong> {speciesData?.shape?.name}</p>
             </div>
 
-            <h3 className="mt-4 text-center font-bold">Weaknesses:</h3>
+            <h3 className="mt-6 text-center text-xl font-bold">Weaknesses:</h3>
             <div className="flex justify-center gap-2 flex-wrap mt-2">
               {weaknesses.map((weak, i) => (
                 <span
@@ -148,7 +148,7 @@ const PokemonCard = ({ pokemon }) => {
               ))}
             </div>
 
-            <h3 className="mt-4 text-center font-bold">Evolution Chain:</h3>
+            <h3 className="mt-6 text-center text-xl font-bold">Evolution Chain:</h3>
             <div className="flex justify-center gap-4 mt-2">
               {evolutionData.map((evo, i) => (
                 <div key={i} className="text-center">
@@ -164,7 +164,7 @@ const PokemonCard = ({ pokemon }) => {
 
             <button
               onClick={() => setIsModalOpen(false)}
-              className="mt-6 bg-yellow-500 hover:bg-yellow-400 py-2 px-4 rounded-lg w-full font-bold"
+              className="mt-8 bg-yellow-500 hover:bg-yellow-400 py-3 px-5 rounded-lg w-full font-bold text-lg"
             >
               Close
             </button>

@@ -1,5 +1,4 @@
 
-
 import Mainsection from './Mainsection'
 import Navbar from './components/Navbar'
 const App = () => {

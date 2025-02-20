@@ -31,7 +31,7 @@ const Navbar = ({ onSearch }) => {
       {/* Navigation Links */}
       <div className="space-x-6">
         <a href="/" className="hover:text-yellow-400">Home</a>
-        <a href="/pokdex" className="hover:text-yellow-400">
+        <a href="/pokedex" className="hover:text-yellow-400">
             Pokedex
         </a>
         <a href="#" className="hover:text-yellow-400">Favorites</a>
