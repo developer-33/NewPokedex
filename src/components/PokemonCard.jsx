@@ -24,70 +24,92 @@ const typeColors = {
 
 const PokemonCard = ({ pokemon }) => {
   const [pokemonData, setPokemonData] = useState(null);
+  const [speciesData, setSpeciesData] = useState(null);
+  const [evolutionData, setEvolutionData] = useState([]);
+  const [weaknesses, setWeaknesses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     axios.get(pokemon.url)
-      .then(response => setPokemonData(response.data))
+      .then(response => {
+        setPokemonData(response.data);
+        return axios.get(response.data.species.url);
+      })
+      .then(speciesRes => {
+        setSpeciesData(speciesRes.data);
+        return axios.get(speciesRes.data.evolution_chain.url);
+      })
+      .then(evoRes => parseEvolutionChain(evoRes.data))
       .catch(error => console.error(error));
   }, [pokemon.url]);
+
+  const parseEvolutionChain = (evolution) => {
+    let evoChain = [];
+    let evoData = evolution.chain;
+
+    do {
+      evoChain.push({
+        name: evoData.species.name,
+        url: evoData.species.url.replace("-species", "")
+      });
+      evoData = evoData.evolves_to[0];
+    } while (evoData && evoData.hasOwnProperty("evolves_to"));
+
+    setEvolutionData(evoChain);
+  };
+
+  useEffect(() => {
+    if (pokemonData) {
+      const promises = pokemonData.types.map(type =>
+        axios.get(`https://pokeapi.co/api/v2/type/${type.type.name}`)
+      );
+
+      Promise.all(promises)
+        .then(responses => {
+          const doubleDamage = responses.flatMap(res =>
+            res.data.damage_relations.double_damage_from.map(t => t.name)
+          );
+          setWeaknesses([...new Set(doubleDamage)]);
+        })
+        .catch(error => console.error(error));
+    }
+  }, [pokemonData]);
 
   if (!pokemonData) return null;
 
   return (
     <div>
-      {/* Pokémon Card */}
-      {/* <div className={`relative bg-gradient-to-b from-${typeColors[pokemonData.types[0].type.name]}/40 to-${typeColors[pokemonData.types[0].type.name]}/60 backdrop-blur-lg border border-white/20 shadow-xl rounded-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer`}> */}
-      {/* <div className="relative bg-gradient-to-b from-purple-500/30 via-indigo-500/40 to-pink-500/30 backdrop-blur-lg border border-white/20 shadow-xl rounded-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer"> */}
-      {/* <div className="relative bg-white/20 backdrop-blur-lg border border-white/10 shadow-lg rounded-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer"> */}
-      {/* <div className={`relative bg-gradient-to-b from-${typeColors[pokemonData.types[0].type.name]}/40 to-${typeColors[pokemonData.types[0].type.name]}/60 backdrop-blur-lg border border-white/20 shadow-xl rounded-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer`}> */}
-      <div className={`relative bg-gradient-to-b ${typeColors[pokemonData.types[0].type.name]} backdrop-blur-lg border border-white/20 shadow-xl rounded-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer`}>
-
-
+      {/* Card */}
+      <div
+        className={`relative bg-gradient-to-b ${typeColors[pokemonData.types[0].type.name]} backdrop-blur-lg border border-white/20 shadow-xl rounded-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer`}
+        onClick={() => setIsModalOpen(true)}
+      >
         <img
           src={pokemonData.sprites.other["official-artwork"].front_default}
           alt={pokemon.name}
           className="absolute -top-12 left-1/2 transform -translate-x-1/2 w-24 h-24 drop-shadow-lg"
         />
 
-        {/* Pokémon Name & ID */}
         <h2 className="text-lg font-bold mt-10 capitalize text-white">
           #{String(pokemonData.id).padStart(3, "0")} {pokemon.name}
         </h2>
 
-        {/* Pokémon Type Badges */}
         <div className="flex justify-center gap-2 mt-2">
           {pokemonData.types.map((type, i) => (
             <span
               key={i}
-              className={`px-3 py-1 text-xs rounded-full ${typeColors[type.type.name]} text-white capitalize`}
+              className={`px-3 py-1 text-xs rounded-full text-white capitalize ${typeColors[type.type.name]}`}
             >
               {type.type.name}
             </span>
           ))}
         </div>
-
-        {/* Weight & Height */}
-        <div className="flex justify-between mt-3 text-xs text-gray-400">
-          <p>⚖ {pokemonData.weight / 10} kg</p>
-          <p>📏 {pokemonData.height / 10} m</p>
-        </div>
-
-        {/* More Details Button */}
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="mt-4 w-full bg-white hover:bg-gray-100 py-2
-           -2 rounded-lg text-sm font-semibold text-red-700"
-        >
-          ⚡ More Details
-        </button>
       </div>
 
-      {/* Pokémon Details Modal */}
+      {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50 animate-fade-in">
-          <div className="bg-gray-900 text-white p-6 rounded-xl max-w-md w-full shadow-2xl relative scale-95 hover:scale-100 transition-transform duration-300">
-            {/* Close Button */}
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-md z-50">
+          <div className="bg-gray-900 text-white p-6 rounded-2xl shadow-2xl w-full max-w-md relative">
             <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-3 right-3 text-red-400 hover:text-red-600 text-xl"
@@ -95,45 +117,51 @@ const PokemonCard = ({ pokemon }) => {
               ✕
             </button>
 
-            {/* Pokémon Name */}
             <h2 className="text-3xl font-bold capitalize text-center mb-4">
               {pokemonData.name}
             </h2>
 
-            {/* Pokémon Image */}
             <img
               src={pokemonData.sprites.other["official-artwork"].front_default}
               alt={pokemonData.name}
               className="mx-auto w-40 rounded-lg border-4 border-yellow-400 shadow-lg"
             />
 
-            {/* Basic Info */}
             <div className="mt-4 text-center">
-              <p><span className="font-semibold">Height:</span> {pokemonData.height / 10} m</p>
-              <p><span className="font-semibold">Weight:</span> {pokemonData.weight / 10} kg</p>
-              <p><span className="font-semibold">Base XP:</span> {pokemonData.base_experience}</p>
+              <p><strong>Height:</strong> {pokemonData.height / 10} m</p>
+              <p><strong>Weight:</strong> {pokemonData.weight / 10} kg</p>
+              <p><strong>Base XP:</strong> {pokemonData.base_experience}</p>
+              <p><strong>Habitat:</strong> {speciesData?.habitat?.name || "Unknown"}</p>
+              <p><strong>Growth Rate:</strong> {speciesData?.growth_rate?.name}</p>
+              <p><strong>Shape:</strong> {speciesData?.shape?.name}</p>
             </div>
 
-            {/* Stats with Progress Bars */}
-            <h3 className="mt-4 font-semibold text-center">Stats:</h3>
-            <ul className="text-sm space-y-2">
-              {pokemonData.stats.map((stat, index) => (
-                <li key={index}>
-                  <div className="flex justify-between">
-                    <span className="capitalize">{stat.stat.name}</span>
-                    <span className="font-semibold">{stat.base_stat}</span>
-                  </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2.5 mt-1">
-                    <div
-                      className="bg-green-400 h-2.5 rounded-full"
-                      style={{ width: `${stat.base_stat > 100 ? 100 : stat.base_stat}%` }}
-                    ></div>
-                  </div>
-                </li>
+            <h3 className="mt-4 text-center font-bold">Weaknesses:</h3>
+            <div className="flex justify-center gap-2 flex-wrap mt-2">
+              {weaknesses.map((weak, i) => (
+                <span
+                  key={i}
+                  className={`px-2 py-1 text-xs rounded-full text-white capitalize ${typeColors[weak]}`}
+                >
+                  {weak}
+                </span>
               ))}
-            </ul>
+            </div>
 
-            {/* Close Button */}
+            <h3 className="mt-4 text-center font-bold">Evolution Chain:</h3>
+            <div className="flex justify-center gap-4 mt-2">
+              {evolutionData.map((evo, i) => (
+                <div key={i} className="text-center">
+                  <img
+                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evo.url.split("/").slice(-2, -1)[0]}.png`}
+                    alt={evo.name}
+                    className="w-16 mx-auto rounded-full border-2 border-gray-600"
+                  />
+                  <p className="capitalize text-sm mt-1">{evo.name}</p>
+                </div>
+              ))}
+            </div>
+
             <button
               onClick={() => setIsModalOpen(false)}
               className="mt-6 bg-yellow-500 hover:bg-yellow-400 py-2 px-4 rounded-lg w-full font-bold"
