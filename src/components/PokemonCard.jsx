@@ -36,8 +36,9 @@ const PokemonCard = ({ pokemon }) => {
 
   return (
     <div>
-      {/* Pokémon Card */}
-      <div className="relative bg-gradient-to-b from-black to-gray-800 rounded-xl shadow-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer">
+      {/* Pokémon Card with Glassmorphism */}
+      <div className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer">
+        
         {/* Pokémon Image */}
         <img
           src={pokemonData.sprites.other["official-artwork"].front_default}
@@ -63,7 +64,7 @@ const PokemonCard = ({ pokemon }) => {
         </div>
 
         {/* Weight & Height */}
-        <div className="flex justify-between mt-3 text-xs text-gray-400">
+        <div className="flex justify-between mt-3 text-xs text-gray-200">
           <p>⚖ {pokemonData.weight / 10} kg</p>
           <p>📏 {pokemonData.height / 10} m</p>
         </div>
@@ -71,16 +72,17 @@ const PokemonCard = ({ pokemon }) => {
         {/* More Details Button */}
         <button
           onClick={() => setIsModalOpen(true)}
-          className="mt-4 w-full bg-yellow-500 hover:bg-yellow-400 py-2 rounded-lg text-sm font-semibold text-black"
+          className="mt-4 w-full bg-blue-500 hover:bg-yellow-400 py-2 rounded-lg text-sm font-semibold text-black"
         >
           ⚡ More Details
         </button>
       </div>
 
-      {/* Pokémon Details Modal */}
+      {/* Pokémon Details Modal with Glassmorphism */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50 animate-fade-in">
-          <div className="bg-gray-900 text-white p-6 rounded-xl max-w-md w-full shadow-2xl relative scale-95 hover:scale-100 transition-transform duration-300">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 text-white p-6 rounded-xl max-w-md w-full shadow-2xl relative scale-95 hover:scale-100 transition-transform duration-300">
+            
             {/* Close Button */}
             <button
               onClick={() => setIsModalOpen(false)}
@@ -102,7 +104,7 @@ const PokemonCard = ({ pokemon }) => {
             />
 
             {/* Basic Info */}
-            <div className="mt-4 text-center">
+            <div className="mt-4 text-center text-gray-200">
               <p><span className="font-semibold">Height:</span> {pokemonData.height / 10} m</p>
               <p><span className="font-semibold">Weight:</span> {pokemonData.weight / 10} kg</p>
               <p><span className="font-semibold">Base XP:</span> {pokemonData.base_experience}</p>
