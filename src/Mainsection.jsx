@@ -1,13 +1,14 @@
 import {   Routes, Route } from "react-router-dom"
 import Pokedex from "./page/Pokdex"
-import Homepage from "./page/Homepage"
+import Profile from "./profile/Profile"
+import TrainerHubHome from "./page/TrainerHubHome"
 const Mainsection = () => {
   return (
     <div>
         <Routes>
-            <Route path="/" element={<Homepage />} />
+            <Route path="/" element={<TrainerHubHome />} />
             <Route path="/pokedex" element={<Pokedex />} />
-            
+            <Route path="/profile" element={<Profile />} />
 
         </Routes>
     </div>

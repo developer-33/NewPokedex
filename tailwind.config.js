@@ -1,21 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{html,js}"],
+  darkMode: 'class', // Enable dark mode via class
   theme: {
-  
-      extend: {
-        animation: {
-          'fade-in': 'fadeIn 0.3s ease-out',
-        },
-        keyframes: {
-          fadeIn: {
-            '0%': { opacity: 0, transform: 'scale(0.95)' },
-            '100%': { opacity: 1, transform: 'scale(1)' },
-          },
-        },  
+    extend: {
+      // colors: {
+      //   'dark-bg': '#6a209c', // Example dark background color
+      //   'dark-text': '#f7fafc', // Example light text color for dark mode
+      // },
     },
-
   },
   plugins: [],
 }
+
 
