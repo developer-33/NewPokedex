@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: "PokemonFont";
+    src: url("./assets/fonts/pokemon-font.ttf") format("truetype");
+  }
+  
+  .pokemon-text {
+    font-family: "PokemonFont", sans-serif;
+  }
+  .pokemon-card {
+    background: url('/assets/pokemon-card-frame.png') no-repeat center center;
+    background-size: cover;
+  }
+  .holo-effect {
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.2), transparent, rgba(255, 255, 255, 0.2));
+    animation: shimmer 3s infinite linear;
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  

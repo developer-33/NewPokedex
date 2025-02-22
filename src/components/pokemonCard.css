@@ -1,0 +1,21 @@
+.holo-effect {
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.2), transparent, rgba(255, 255, 255, 0.2));
+    animation: shimmer 3s infinite linear;
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .pokemon-card {
+    background: url('/assets/pokemon-card-frame.png') no-repeat center center;
+    background-size: cover;
+  }
+  @font-face {
+    font-family: "Pokemon";
+    src: url("./assets/pokemon-font.ttf") format("truetype");
+  }
+  
+  .pokemon-text {
+    font-family: "Pokemon", sans-serif;
+  }  
