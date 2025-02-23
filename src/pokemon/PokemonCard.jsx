@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import "./pokemonCard.css"
 const typeColors = {
   fire: "bg-red-500",
   water: "bg-blue-500",
@@ -103,17 +103,17 @@ const PokemonCard = ({ pokemon, onSelectPokemon }) => {
   
 
   return (
-    <div>
+    <div className="">
       <div
         className={`relative ${typeColors[pokemonData.types[0].type.name]} border border-white/30 shadow-xl rounded-xl p-5 text-center cursor-pointer hover:scale-110 transform transition-transform duration-300 hover:rotate-2`}
         onClick={() => setIsModalOpen(true)}
       >
-        <img
-          src={pokemonData.sprites.other["official-artwork"].front_default}
-          alt={pokemon.name}
-          className="absolute -top-12 left-1/2 transform -translate-x-1/2 w-28 h-28 drop-shadow-lg transition-all duration-300 hover:scale-110"
-        />
-        <h2 className="text-lg font-bold mt-12 capitalize text-white">
+     <img
+  className="w-[80%] max-w-[250px] sm:max-w-[300px] h-auto object-contain border-4 border-gray-600 rounded-lg bg-gradient-to-b from-white/20 to-white/5 transition-all duration-300 hover:scale-105"
+  src={showShiny ? pokemonData.sprites.other["official-artwork"].front_shiny : pokemonData.sprites.other["official-artwork"].front_default}
+  alt={pokemonData.name}
+/>
+       <h2 className="text-responsive font-bold mt-12 capitalize text-white">
           #{String(pokemonData.id).padStart(3, "0")} {pokemon.name}
         </h2>
       </div>
@@ -121,16 +121,19 @@ const PokemonCard = ({ pokemon, onSelectPokemon }) => {
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-md z-50">
-          <div className="relative w-[90vw] max-w-[950px] h-[90vh] bg-gradient-to-b from-white/20 to-white/5 rounded-3xl border-[10px] border-yellow-500 shadow-2xl p-4 flex flex-col">
+        <div className="relative w-[95vw] max-w-[900px] h-[90vh] overflow-y-auto sm:h-auto sm:max-h-[90vh] bg-gradient-to-b from-white/20 to-white/5 rounded-3xl border-[10px] border-yellow-500 shadow-2xl p-4 flex flex-col">
+
+
+
             <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 bg-gray-600 text-white px-3 py-1 rounded-full text-lg hover:bg-gray-500 transition-all duration-300 hover:scale-110">✕</button>
-            <div className="flex flex-row w-full h-full">
+            <div className="flex flex-col sm:flex-row w-full h-full">
               <div className="w-1/2 flex flex-col items-center justify-center p-3">
                 <img
                   src={showShiny ? pokemonData.sprites.other["official-artwork"].front_shiny : pokemonData.sprites.other["official-artwork"].front_default}
                   alt={pokemonData.name}
-                  className="w-[480px] h-[480px] object-contain border-4 border-gray-600 rounded-lg bg-gradient-to-b from-white/20 to-white/5 transition-all duration-300 hover:scale-105"
+             className="w-full max-w-[300px] sm:max-w-[480px] h-auto object-contain border-4 border-gray-600 rounded-lg bg-gradient-to-b from-white/20 to-white/5 transition-all duration-300 hover:scale-105"
                 />
-                <div className="flex gap-2 mt-2">
+             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2">
   {pokemonData.types.map((type) => (
     <span key={type.type.name} className={`px-3 py-1 rounded-full text-white font-bold ${typeColors[type.type.name]}`}>
       {type.type.name.toUpperCase()}
@@ -209,7 +212,8 @@ const PokemonCard = ({ pokemon, onSelectPokemon }) => {
             </div>
           </div>
         </div>
-      )}
+      )} 
+    
     </div>
   );
 };
