@@ -2,7 +2,6 @@
 import Mainsection from './Mainsection';
 // import Sidebar from './components/SideBar';
 
-
 const App = () => {
  
   return (
