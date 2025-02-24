@@ -104,19 +104,20 @@ const PokemonCard = ({ pokemon, onSelectPokemon }) => {
 
   return (
     <div className="">
-      <div
-        className={`relative ${typeColors[pokemonData.types[0].type.name]} border border-white/30 shadow-xl rounded-xl p-5 text-center cursor-pointer hover:scale-110 transform transition-transform duration-300 hover:rotate-2`}
+        <div
+              className={`relative bg-gradient-to-b ${typeColors[pokemonData.types[0].type.name]} backdrop-blur-lg border border-white/20 shadow-xl rounded-xl p-5 text-center hover:scale-105 transition-transform duration-300 cursor-pointer`}
         onClick={() => setIsModalOpen(true)}
       >
-     <img
-  className="w-[80%] max-w-[250px] sm:max-w-[300px] h-auto object-contain border-4 border-gray-600 rounded-lg bg-gradient-to-b from-white/20 to-white/5 transition-all duration-300 hover:scale-105"
-  src={showShiny ? pokemonData.sprites.other["official-artwork"].front_shiny : pokemonData.sprites.other["official-artwork"].front_default}
-  alt={pokemonData.name}
+    <img
+          src={pokemonData.sprites.other["official-artwork"].front_default}
+          alt={pokemon.name}
+          className="absolute -top-10 left-1/2 transform -translate-x-1/2 w-24 h-24 drop-shadow-lg"
 />
        <h2 className="text-responsive font-bold mt-12 capitalize text-white">
           #{String(pokemonData.id).padStart(3, "0")} {pokemon.name}
         </h2>
       </div>
+
 
 
       {isModalOpen && (

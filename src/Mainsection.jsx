@@ -1,6 +1,9 @@
 import {   Routes, Route } from "react-router-dom"
 import Pokedex from "./pokemon/Pokedex"
 import Navbar from "./utils/Navbar"
+import PokemonBattle from "./pages/Battle"
+// import NewsFeed from "./pages/NewsFeed"
+import Pokedex2 from "./pokemon/NewPokedex"
 // import Sidebar from "./utils/SideBar"
 import { useState, useEffect } from "react"
 const Mainsection = () => {
@@ -35,8 +38,10 @@ const Mainsection = () => {
   
     </div>
          
-        <Routes>
-         
+        <Routes> 
+            <Route path="/" element={<Pokedex2 isDarkMode={isDarkMode} />} />
+            <Route path="/battle" element={<PokemonBattle />} />
+            
             <Route path="/pokedex" element={<Pokedex isDarkMode={isDarkMode} />} />
     
 
